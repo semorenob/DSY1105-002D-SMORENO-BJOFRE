@@ -108,8 +108,8 @@ fun RegistroScreen(
         // Botón: enviar
         Button(
             onClick = {
-                if (viewModel.validarFormularioRegistro()) {
-                    navController.navigate("resumen")
+                if (viewModel.validarFormulario()) {
+                    navController.navigate("success")
                 }
             },
             modifier = Modifier.fillMaxWidth()

@@ -16,11 +16,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.modoguardian.navigation.NavigationEvent
 import com.example.modoguardian.navigation.Screen
 import com.example.modoguardian.ui.screens.LoginScreen
+import com.example.modoguardian.ui.screens.PerfilScreen
 import com.example.modoguardian.ui.screens.RegistroScreen
 import com.example.modoguardian.ui.screens.StartPage
+import com.example.modoguardian.ui.screens.SuccessScreen
 import com.example.modoguardian.ui.theme.ModoGuardianTheme
 import com.example.modoguardian.viewmodel.LoginViewModel
 import com.example.modoguardian.viewmodel.MainViewModel
+import com.example.modoguardian.viewmodel.PerfilViewModel
 import com.example.modoguardian.viewmodel.RegistroViewModel
 import kotlinx.coroutines.flow.collectLatest
 
@@ -33,6 +36,7 @@ class MainActivity : ComponentActivity() {
                 val viewModel: MainViewModel = viewModel()
                 val loginViewModel: LoginViewModel = viewModel()
                 val registroViewModel: RegistroViewModel = viewModel()
+                val perfilViewModel: PerfilViewModel = viewModel()
                 val navController = rememberNavController()
 
                 LaunchedEffect(key1 = Unit) {
@@ -73,6 +77,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.RegistroScreen.route) {
                             RegistroScreen(navController = navController, viewModel = registroViewModel)
+                        }
+                        composable(route = Screen.SuccessScreen.route) {
+                            SuccessScreen(navController = navController, viewModel = registroViewModel)
+                        }
+                        composable(route = Screen.PerfilScreen.route) {
+                            PerfilScreen(viewModel = perfilViewModel)
                         }
                     }
                 }

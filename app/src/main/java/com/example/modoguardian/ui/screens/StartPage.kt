@@ -55,5 +55,15 @@ fun StartPage(
         ) {
             Text("Iniciar Sesión", style = MaterialTheme.typography.labelLarge)
         }
+
+        Button(
+            onClick = {
+                navController.navigate("perfil")
+            },
+            colors = ButtonDefaults.buttonColors(),
+            modifier = Modifier
+        ) {
+            Text("Perfil test")
+        }
         }
     }

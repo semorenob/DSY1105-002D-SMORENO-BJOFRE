@@ -66,7 +66,7 @@ fun LoginCompact(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-                    navController.navigate("")
+                    navController.navigate("success")
                 }
             },
             modifier = Modifier.fillMaxWidth()
