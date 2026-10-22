@@ -1,4 +1,5 @@
 plugins {
+    id("com.google.devtools.ksp")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
@@ -36,6 +37,10 @@ android {
 }
 
 dependencies {
+    implementation("androidx.room3:room3-runtime:3.0.3")
+    implementation("androidx.room3:room3-ktx:3.0.3")
+    implementation(libs.androidx.room.common)
+    ksp("androidx.room3:room3-compiler:3.0.3")
     implementation("io.coil-kt.coil3:coil-compose:3.6.3")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.3")
     implementation("androidx.navigation:navigation-compose:2.10.2")
