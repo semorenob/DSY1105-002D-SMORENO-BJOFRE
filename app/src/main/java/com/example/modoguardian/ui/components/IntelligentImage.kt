@@ -1,4 +1,4 @@
-package com.example.modoguardian.components
+package com.example.modoguardian.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

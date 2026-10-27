@@ -35,17 +35,21 @@ fun RegistroScreen(
         Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Registrarse", style = MaterialTheme.typography.headlineMedium)
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         // Campo nombre
         OutlinedTextField(
             value = estado.nombre,
             onValueChange = viewModel::onNombreChange,
             label = { Text("Nombre") },
-            isError = estado.errores.nombre != null,
+            isError = estado.errores.nombreError != null,
             supportingText = {
-                estado.errores.nombre?.let {
+                estado.errores.nombreError?.let {
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
@@ -57,9 +61,9 @@ fun RegistroScreen(
             value = estado.correo,
             onValueChange = viewModel::onCorreoChange,
             label = { Text("Correo electronico") },
-            isError = estado.errores.correo != null,
+            isError = estado.errores.correoError != null,
             supportingText = {
-                estado.errores.correo?.let {
+                estado.errores.correoError?.let {
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
@@ -72,9 +76,9 @@ fun RegistroScreen(
             onValueChange = viewModel::onClaveChange,
             label = { Text("Contraseña") },
             visualTransformation = PasswordVisualTransformation(),
-            isError = estado.errores.clave != null,
+            isError = estado.errores.claveError != null,
             supportingText = {
-                estado.errores.clave?.let {
+                estado.errores.claveError?.let {
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
@@ -86,9 +90,9 @@ fun RegistroScreen(
             value = estado.direccion,
             onValueChange = viewModel::onDireccionChange,
             label = { Text("Dirección") },
-            isError = estado.errores.direccion != null,
+            isError = estado.errores.direccionError != null,
             supportingText = {
-                estado.errores.direccion?.let {
+                estado.errores.direccionError?.let {
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
@@ -101,7 +105,6 @@ fun RegistroScreen(
                 checked = estado.aceptaTerminos,
                 onCheckedChange = viewModel::onAceptarTerminosChange
             )
-            Spacer(Modifier.width(8.dp))
             Text("Acepto los términos y condiciones")
         }
 

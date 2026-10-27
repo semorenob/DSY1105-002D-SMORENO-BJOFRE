@@ -1,20 +1,20 @@
-package com.example.modoguardian.data.local.database
+package com.example.modoguardian.data.local
 
 import android.content.Context
 import androidx.room.Database
+import androidx.room.TypeConverters
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
-import com.example.modoguardian.data.local.database.dao.UsuarioDao
-import com.example.modoguardian.data.local.database.entities.UsuarioEntity
 import kotlinx.coroutines.flow.Flow
 
 @Database(entities = [UsuarioEntity::class], version=1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase(){
     abstract fun usuarioDao(): UsuarioDao
     companion object{
-        @Volatile private var INSTANCE: AppDatabase?= null
+        @Volatile private var INSTANCE: AppDatabase? = null
         fun getDatabase(c: Context): AppDatabase = INSTANCE ?: synchronized(this) {
-            Room.databaseBuilder(c, AppDatabase::class.java, "coworkhub.db").build()
+            Room.databaseBuilder(c, AppDatabase::class.java, "app_database").build()
                 .also { INSTANCE = it }
         }
     }

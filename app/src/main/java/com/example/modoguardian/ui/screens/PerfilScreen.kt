@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.modoguardian.components.IntelligentImage
+import com.example.modoguardian.ui.components.IntelligentImage
 import com.example.modoguardian.viewmodel.PerfilViewModel
 
 @Composable

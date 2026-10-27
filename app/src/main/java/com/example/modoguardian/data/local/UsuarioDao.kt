@@ -1,11 +1,10 @@
-package com.example.modoguardian.data.local.database.dao
+package com.example.modoguardian.data.local
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.modoguardian.data.local.database.entities.UsuarioEntity
 import kotlinx.coroutines.flow.Flow
 
 

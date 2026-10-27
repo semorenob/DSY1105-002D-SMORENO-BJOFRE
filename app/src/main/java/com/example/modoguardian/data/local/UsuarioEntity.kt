@@ -1,10 +1,10 @@
-package com.example.modoguardian.data.local.database.entities
+package com.example.modoguardian.data.local
 
 import android.net.Uri
 import androidx.room.TypeConverter
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
-import java.sql.Date
+import java.util.Date
 
 @Entity(tableName = "usuarios")
 data class UsuarioEntity (
@@ -15,7 +15,7 @@ data class UsuarioEntity (
     val dirrecion: String,
     val modoEspecial: Boolean,
     val fotoPath: String?,
-    val fechaRegistro: Date
+    val fechaRegistro: Date = Date()
 )
 
 class Converters {
