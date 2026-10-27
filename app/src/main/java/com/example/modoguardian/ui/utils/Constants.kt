@@ -1,6 +1,6 @@
 package com.example.modoguardian.ui.utils
 
-// ADMIN
+// ADMINistrador
 const val EMAIL_ADMIN = "admin@guardian.test"
 const val PASSWD_ADMIN = 123456
 
