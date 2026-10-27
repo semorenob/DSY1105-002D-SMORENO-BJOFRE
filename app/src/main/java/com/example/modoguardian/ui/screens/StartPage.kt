@@ -41,10 +41,10 @@ fun StartPage(
             colors = ButtonDefaults.buttonColors(),
             modifier = Modifier
         ) {
-            Text("Registrar", style = MaterialTheme.typography.labelLarge)
+            Text("Registrarse", style = MaterialTheme.typography.labelLarge)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
         Button(
             onClick = {
@@ -56,14 +56,6 @@ fun StartPage(
             Text("Iniciar Sesión", style = MaterialTheme.typography.labelLarge)
         }
 
-        Button(
-            onClick = {
-                navController.navigate("perfil")
-            },
-            colors = ButtonDefaults.buttonColors(),
-            modifier = Modifier
-        ) {
-            Text("Perfil test")
-        }
+
         }
     }
