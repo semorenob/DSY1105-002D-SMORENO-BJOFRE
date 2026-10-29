@@ -9,15 +9,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.modoguardian.data.local.AppDatabase
+import com.example.modoguardian.data.preferences.PreferencesManager
 import com.example.modoguardian.navigation.NavigationEvent
 import com.example.modoguardian.navigation.Screen
+import com.example.modoguardian.ui.screens.ListadoOfflineScreen
 import com.example.modoguardian.ui.screens.LoginScreen
 import com.example.modoguardian.ui.screens.PerfilScreen
+import com.example.modoguardian.ui.screens.RegistroIntegralScreen
 import com.example.modoguardian.ui.screens.RegistroScreen
+import com.example.modoguardian.ui.screens.ResumenScreen
 import com.example.modoguardian.ui.screens.StartPage
 import com.example.modoguardian.ui.screens.SuccessScreen
 import com.example.modoguardian.ui.theme.ModoGuardianTheme
@@ -25,18 +32,30 @@ import com.example.modoguardian.viewmodel.LoginViewModel
 import com.example.modoguardian.viewmodel.MainViewModel
 import com.example.modoguardian.viewmodel.PerfilViewModel
 import com.example.modoguardian.viewmodel.RegistroViewModel
+import com.example.modoguardian.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val database = AppDatabase.getDatabase(this)
+        val preferencesManager = PreferencesManager(this)
+
+        val factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return UsuarioViewModel(database.usuarioDao(), preferencesManager) as T
+            }
+        }
+
+        val viewModel = ViewModelProvider(this, factory)[UsuarioViewModel::class.java]
+
         setContent {
             ModoGuardianTheme {
                 val viewModel: MainViewModel = viewModel()
                 val loginViewModel: LoginViewModel = viewModel()
-                val registroViewModel: RegistroViewModel = viewModel()
-                val perfilViewModel: PerfilViewModel = viewModel()
+                val usuarioViewModel: UsuarioViewModel = viewModel()
                 val navController = rememberNavController()
 
                 LaunchedEffect(key1 = Unit) {
@@ -75,14 +94,14 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screen.LoginScreen.route) {
                             LoginScreen(navController = navController, viewModel = loginViewModel)
                         }
-                        composable(route = Screen.RegistroScreen.route) {
-                            RegistroScreen(navController = navController, viewModel = registroViewModel)
+                        composable(route = Screen.RegistroIntegralScreen.route) {
+                            RegistroIntegralScreen(navController = navController, viewModel = usuarioViewModel)
                         }
-                        composable(route = Screen.SuccessScreen.route) {
-                            SuccessScreen(navController = navController, viewModel = registroViewModel)
+                        composable(route = Screen.ResumenScreen.route) {
+                            ResumenScreen(viewModel = usuarioViewModel, onVerListado = {navController.navigate(Screen.ListadoOfflineScreen.route)})
                         }
-                        composable(route = Screen.PerfilScreen.route) {
-                            PerfilScreen(viewModel = perfilViewModel)
+                        composable(route = Screen.ListadoOfflineScreen.route) {
+                            ListadoOfflineScreen(viewModel = usuarioViewModel)
                         }
                     }
                 }
