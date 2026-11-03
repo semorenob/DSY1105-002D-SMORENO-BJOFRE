@@ -1,10 +1,11 @@
-package com.example.modoguardian.components
+package com.example.modoguardian.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import android.net.Uri
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -35,7 +36,7 @@ fun IntelligentImage(
                 model = imageUri,
                 contentDescription = "Imagen de perfil",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.clip(CircleShape)
+                modifier = Modifier.fillMaxSize().clip(CircleShape)
             )
         } else {
             Icon(

@@ -1,9 +1,11 @@
 package com.example.modoguardian.model
 
 data class UsuarioErrores(
-    val nombre: String? = null,
-    val correo: String? = null,
-    val clave: String? = null,
-    val direccion: String? = null
+    val nombreError: String? = null,
+    val correoError: String? = null,
+    val claveError: String? = null,
+    val direccionError: String? = null,
+    val terminosError: String? = null,
+    val fotoError: String? = null
 ) {
 }

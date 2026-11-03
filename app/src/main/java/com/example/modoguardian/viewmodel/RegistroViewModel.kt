@@ -16,22 +16,22 @@ class RegistroViewModel: ViewModel() {
 
     // Actualiza el campo nombre y limpia su error
     fun onNombreChange(valor: String) {
-        _estado.update { it.copy(nombre = valor, errores = it.errores.copy(nombre = null)) }
+        _estado.update { it.copy(nombre = valor, errores = it.errores.copy(nombreError = null)) }
     }
 
     //Actualiza el campo correo
     fun onCorreoChange(valor: String) {
-        _estado.update { it.copy(correo = valor, errores = it.errores.copy(correo = null)) }
+        _estado.update { it.copy(correo = valor, errores = it.errores.copy(correoError = null)) }
     }
 
     // Actualiza el campo clave
     fun onClaveChange(valor: String) {
-        _estado.update { it.copy(clave = valor, errores = it.errores.copy(direccion = null)) }
+        _estado.update { it.copy(clave = valor, errores = it.errores.copy(claveError = null)) }
     }
 
     // Actualiza el campo direccion
     fun onDireccionChange(valor: String) {
-        _estado.update { it.copy(direccion = valor, errores = it.errores.copy(direccion = null)) }
+        _estado.update { it.copy(direccion = valor, errores = it.errores.copy(direccionError = null)) }
     }
 
     // Actualiza checkbox de aceptacion
@@ -43,17 +43,17 @@ class RegistroViewModel: ViewModel() {
     fun validarFormulario(): Boolean {
         val estadoActual = _estado.value
         val errores = UsuarioErrores(
-            nombre = if (estadoActual.nombre.isBlank()) "Campo obligatorio" else null,
-            correo = if (!estadoActual.correo.contains("@")) "Correo invalido" else null,
-            clave = if (estadoActual.clave.length < 6) "Debe tener al menos 6 caracteres" else null,
-            direccion = if (estadoActual.direccion.isBlank()) "Campo obligatorio" else null
+            nombreError = if (estadoActual.nombre.isBlank()) "Campo obligatorio" else null,
+            correoError = if (!estadoActual.correo.contains("@")) "Correo invalido" else null,
+            claveError = if (estadoActual.clave.length < 6) "Debe tener al menos 6 caracteres" else null,
+            direccionError = if (estadoActual.direccion.isBlank()) "Campo obligatorio" else null
         )
 
         val hayErrores = listOfNotNull(
-            errores.nombre,
-            errores.correo,
-            errores.clave,
-            errores.direccion
+            errores.nombreError,
+            errores.correoError,
+            errores.claveError,
+            errores.direccionError
         ).isNotEmpty()
 
         _estado.update { it.copy(errores = errores) }
