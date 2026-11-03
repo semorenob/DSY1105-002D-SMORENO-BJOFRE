@@ -1,7 +1,5 @@
 package com.example.modoguardian.model
 
-import android.net.Uri
-
 data class UsuarioErrores(
     val nombreError: String? = null,
     val correoError: String? = null,

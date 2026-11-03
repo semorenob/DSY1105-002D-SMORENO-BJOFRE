@@ -45,12 +45,35 @@ class UsuarioViewModel(
         }
     }
 
-    fun onNombreChange(v: String) { _uiState.value = _uiState.value.copy(nombre = v) }
-    fun onCorreoChange(v: String) { _uiState.value = _uiState.value.copy(correo = v) }
-    fun onClaveChange(v: String) { _uiState.value = _uiState.value.copy(clave = v) }
-    fun onDireccionChange(v: String) { _uiState.value = _uiState.value.copy(direccion = v) }
-    fun onTerminosChange(v: Boolean) { _uiState.value = _uiState.value.copy(aceptaTerminos = v) }
-    fun actualizarFoto(uri: Uri?) { _uiState.value = _uiState.value.copy(fotoUri = uri) }
+    fun onNombreChange(v: String) {
+        _uiState.value = _uiState.value.copy(nombre = v)
+        _errores.value = _errores.value.copy(nombreError = null)
+    }
+
+    fun onCorreoChange(v: String) {
+        _uiState.value = _uiState.value.copy(correo = v)
+        _errores.value = _errores.value.copy(correoError = null)
+    }
+
+    fun onClaveChange(v: String) {
+        _uiState.value = _uiState.value.copy(clave = v)
+        _errores.value = _errores.value.copy(claveError = null)
+    }
+
+    fun onDireccionChange(v: String) {
+        _uiState.value = _uiState.value.copy(direccion = v)
+        _errores.value = _errores.value.copy(direccionError = null)
+    }
+
+    fun onTerminosChange(v: Boolean) {
+        _uiState.value = _uiState.value.copy(aceptaTerminos = v)
+        if (v) _errores.value = _errores.value.copy(terminosError = null)
+    }
+
+    fun actualizarFoto(uri: Uri?) {
+        _uiState.value = _uiState.value.copy(fotoUri = uri)
+        if (uri != null) _errores.value = _errores.value.copy(fotoError = null)
+    }
 
     fun toggleModoEspecial() {
         viewModelScope.launch {
@@ -71,7 +94,14 @@ class UsuarioViewModel(
         val errTerm = if (!s.aceptaTerminos) "Debe aceptar los terminos" else null
         val errFoto = if (s.fotoUri == null) "Debe seleccionar o tomar una foto" else null
 
-        _errores.value = UsuarioErrores(errNombre, errCorreo, errClave, errDir, errTerm, errFoto)
+        _errores.value = UsuarioErrores(
+            nombreError = errNombre,
+            correoError = errCorreo,
+            claveError = errClave,
+            direccionError = errDir,
+            terminosError = errTerm,
+            fotoError = errFoto
+        )
 
         return listOf(errNombre, errCorreo, errClave, errDir, errTerm, errFoto).all { it == null }
     }
@@ -84,7 +114,7 @@ class UsuarioViewModel(
             val entity = UsuarioEntity(
                 nombre = s.nombre,
                 correo = s.correo,
-                dirrecion = s.direccion,
+                direccion = s.direccion,
                 modoEspecial = s.modoEspecial,
                 fotoPath = s.fotoUri?.toString()
             )

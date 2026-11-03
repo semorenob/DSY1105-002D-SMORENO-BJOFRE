@@ -14,7 +14,7 @@ interface UsuarioDao {
     fun getUsuariosFlow(): Flow<List<UsuarioEntity>>
 
     @Query("SELECT * FROM usuarios WHERE id =:id")
-    suspend fun getPorld(id: Int): UsuarioEntity?
+    suspend fun getPorId(id: Int): UsuarioEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertar(usuario: UsuarioEntity)

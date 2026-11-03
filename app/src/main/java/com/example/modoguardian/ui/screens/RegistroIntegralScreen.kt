@@ -1,5 +1,7 @@
 package com.example.modoguardian.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,13 +37,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
+import com.example.modoguardian.navigation.Screen
 import com.example.modoguardian.ui.components.IntelligentImage
 import com.example.modoguardian.ui.components.PremiumCard
 import com.example.modoguardian.viewmodel.UsuarioViewModel
@@ -66,6 +69,12 @@ fun RegistroIntegralScreen(
         uri?.let { viewModel.actualizarFoto(it) }
     }
 
+    fun crearTempUri(): Uri {
+        val imagesDir = File(context.filesDir, "images").apply { mkdirs() }
+        val file = File.createTempFile("photo_", ".jpg", imagesDir)
+        return FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+    }
+
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture()
     ) { exito ->
@@ -74,9 +83,16 @@ fun RegistroIntegralScreen(
         }
     }
 
-    fun crearTempUri(): Uri {
-        val file = File.createTempFile("photo_", ".jpg", context.getExternalFilesDir(null))
-        return FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
+    fun abrirCamara() {
+        val uri = crearTempUri()
+        tempCameraUri = uri
+        cameraLauncher.launch(uri)
+    }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { concedido ->
+        if (concedido) abrirCamara()
     }
 
     val colorBotonAnimado by animateColorAsState(
@@ -102,11 +118,17 @@ fun RegistroIntegralScreen(
 
             Row(modifier = Modifier.padding(vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(onClick = {
-                    val uri = crearTempUri()
-                    tempCameraUri = uri
-                    cameraLauncher.launch(uri)
+                    if (ContextCompat.checkSelfPermission(
+                            context,
+                            Manifest.permission.CAMERA
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        abrirCamara()
+                    } else {
+                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    }
                 }) {
-                    Text("Cámara-")
+                    Text("Cámara")
                 }
 
                 Button(onClick = { galleryLauncher.launch("image/*") }) { Text("Galería")}
@@ -172,7 +194,7 @@ fun RegistroIntegralScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { viewModel.guardarEnRoom { navController.navigate("resumen") } },
+                onClick = { viewModel.guardarEnRoom { navController.navigate(Screen.ResumenScreen.route) } },
                 modifier = Modifier.fillMaxWidth()
             ) { Text("Registrar y ver resumen")}
 

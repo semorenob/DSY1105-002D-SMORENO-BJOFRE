@@ -19,18 +19,19 @@ import com.example.modoguardian.data.local.AppDatabase
 import com.example.modoguardian.data.preferences.PreferencesManager
 import com.example.modoguardian.navigation.NavigationEvent
 import com.example.modoguardian.navigation.Screen
+import com.example.modoguardian.ui.screens.HomeAdminScreen
+import com.example.modoguardian.ui.screens.HomeOperadorScreen
+import com.example.modoguardian.ui.screens.HomeSupervisorScreen
 import com.example.modoguardian.ui.screens.ListadoOfflineScreen
 import com.example.modoguardian.ui.screens.LoginScreen
-import com.example.modoguardian.ui.screens.PerfilScreen
+import com.example.modoguardian.ui.screens.LoginSuccessScreen
 import com.example.modoguardian.ui.screens.RegistroIntegralScreen
-import com.example.modoguardian.ui.screens.RegistroScreen
 import com.example.modoguardian.ui.screens.ResumenScreen
 import com.example.modoguardian.ui.screens.StartPage
 import com.example.modoguardian.ui.screens.SuccessScreen
 import com.example.modoguardian.ui.theme.ModoGuardianTheme
 import com.example.modoguardian.viewmodel.LoginViewModel
 import com.example.modoguardian.viewmodel.MainViewModel
-import com.example.modoguardian.viewmodel.PerfilViewModel
 import com.example.modoguardian.viewmodel.RegistroViewModel
 import com.example.modoguardian.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -44,22 +45,24 @@ class MainActivity : ComponentActivity() {
         val preferencesManager = PreferencesManager(this)
 
         val factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                require(modelClass.isAssignableFrom(UsuarioViewModel::class.java)) {
+                    "ViewModel desconocido: ${modelClass.name}"
+                }
                 return UsuarioViewModel(database.usuarioDao(), preferencesManager) as T
             }
         }
 
-        val viewModel = ViewModelProvider(this, factory)[UsuarioViewModel::class.java]
-
         setContent {
             ModoGuardianTheme {
-                val viewModel: MainViewModel = viewModel()
+                val mainViewModel: MainViewModel = viewModel()
                 val loginViewModel: LoginViewModel = viewModel()
-                val usuarioViewModel: UsuarioViewModel = viewModel()
+                val usuarioViewModel: UsuarioViewModel = viewModel(factory = factory)
                 val navController = rememberNavController()
 
                 LaunchedEffect(key1 = Unit) {
-                    viewModel.navigationEvents.collectLatest { event ->
+                    mainViewModel.navigationEvents.collectLatest { event ->
                         when (event) {
                             is NavigationEvent.NavigateTo -> {
                                 navController.navigate(event.route.route) {
@@ -102,6 +105,36 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.ListadoOfflineScreen.route) {
                             ListadoOfflineScreen(viewModel = usuarioViewModel)
+                        }
+                        composable(route = Screen.SuccessScreen.route) {
+                            SuccessScreen(
+                                navController = navController,
+                                viewModel = viewModel<RegistroViewModel>()
+                            )
+                        }
+                        composable(route = Screen.LoginSuccessScreen.route) {
+                            LoginSuccessScreen(
+                                navController = navController,
+                                loginViewModel = loginViewModel
+                            )
+                        }
+                        composable(route = Screen.HomeAdmin.route) {
+                            HomeAdminScreen(
+                                navController = navController,
+                                loginViewModel = loginViewModel
+                            )
+                        }
+                        composable(route = Screen.HomeSupervisor.route) {
+                            HomeSupervisorScreen(
+                                navController = navController,
+                                loginViewModel = loginViewModel
+                            )
+                        }
+                        composable(route = Screen.HomeOperador.route) {
+                            HomeOperadorScreen(
+                                navController = navController,
+                                loginViewModel = loginViewModel
+                            )
                         }
                     }
                 }

@@ -13,6 +13,6 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel) {
 
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> LoginCompact(navController = navController, viewModel = viewModel)
-        //WindowWidthSizeClass.Medium -> LoginMedium()
+        else -> LoginMedium(navController = navController, viewModel = viewModel)
     }
 }

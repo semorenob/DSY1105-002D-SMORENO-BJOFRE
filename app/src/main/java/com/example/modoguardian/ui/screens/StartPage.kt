@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.modoguardian.navigation.Screen
 
 @Composable
 fun StartPage(
@@ -48,7 +49,7 @@ fun StartPage(
 
         Button(
             onClick = {
-                navController.navigate("registro")
+                navController.navigate(Screen.RegistroIntegralScreen.route)
             },
             colors = ButtonDefaults.buttonColors(),
             modifier = Modifier
@@ -60,7 +61,7 @@ fun StartPage(
 
         Button(
             onClick = {
-                navController.navigate("login")
+                navController.navigate(Screen.LoginScreen.route)
             },
             colors = ButtonDefaults.buttonColors(),
             modifier = Modifier

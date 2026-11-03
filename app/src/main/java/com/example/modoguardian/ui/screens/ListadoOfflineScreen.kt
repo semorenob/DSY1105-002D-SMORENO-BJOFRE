@@ -1,6 +1,5 @@
 package com.example.modoguardian.ui.screens
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import com.example.modoguardian.ui.components.IntelligentImage
 import com.example.modoguardian.viewmodel.UsuarioViewModel
 
@@ -32,7 +32,7 @@ fun ListadoOfflineScreen(viewModel: UsuarioViewModel) {
         items(usuarios) { u ->
             Card(modifier = Modifier.fillMaxWidth()) {
                 Row(modifier = Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    IntelligentImage(imageUri = u.fotoPath?.let { Uri.parse(it) }, modifier = Modifier.size(50.dp))
+                    IntelligentImage(imageUri = u.fotoPath?.toUri(), modifier = Modifier.size(50.dp))
                     Column {
                         Text(u.nombre, style = MaterialTheme.typography.titleMedium)
                         Text(u.correo, style = MaterialTheme.typography.bodySmall)

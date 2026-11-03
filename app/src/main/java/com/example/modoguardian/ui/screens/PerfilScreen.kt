@@ -1,5 +1,7 @@
 package com.example.modoguardian.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.modoguardian.ui.components.IntelligentImage
 import com.example.modoguardian.viewmodel.PerfilViewModel
@@ -52,6 +55,18 @@ fun PerfilScreen(viewModel: PerfilViewModel = viewModel()) {
         }
     }
 
+    fun abrirCamara() {
+        val uri = viewModel.createTempImageUri(context)
+        tempCameraUri = uri
+        cameraLauncher.launch(uri)
+    }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { concedido ->
+        if (concedido) abrirCamara()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,9 +88,15 @@ fun PerfilScreen(viewModel: PerfilViewModel = viewModel()) {
 
             // boton camara
             Button(onClick = {
-                val uri = viewModel.createTempImageUri(context)
-                tempCameraUri = uri
-                cameraLauncher.launch(uri)
+                if (ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.CAMERA
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    abrirCamara()
+                } else {
+                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                }
             }) {
                 Text("Cámara")
             }

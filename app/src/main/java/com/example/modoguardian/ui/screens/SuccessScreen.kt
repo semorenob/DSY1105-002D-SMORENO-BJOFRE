@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.modoguardian.navigation.Screen
 import com.example.modoguardian.viewmodel.RegistroViewModel
 
 @Composable
@@ -41,7 +42,7 @@ fun SuccessScreen(
 
         Button(
             onClick = {
-                navController.navigate("start_page")
+                navController.navigate(Screen.StartPage.route)
             },
             colors = ButtonDefaults.buttonColors(),
             modifier = Modifier

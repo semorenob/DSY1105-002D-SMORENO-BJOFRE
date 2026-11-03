@@ -1,9 +1,9 @@
 package com.example.modoguardian.data.local
 
 import android.net.Uri
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
-import androidx.room3.Entity
-import androidx.room3.PrimaryKey
 import java.util.Date
 
 @Entity(tableName = "usuarios")
@@ -12,7 +12,7 @@ data class UsuarioEntity (
     val id: Int = 0,
     val nombre: String ,
     val correo: String,
-    val dirrecion: String,
+    val direccion: String,
     val modoEspecial: Boolean,
     val fotoPath: String?,
     val fechaRegistro: Date = Date()
