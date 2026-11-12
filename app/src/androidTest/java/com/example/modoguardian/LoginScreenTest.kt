@@ -2,6 +2,7 @@ package com.example.modoguardian
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -33,9 +34,9 @@ class LoginScreenTest {
             LoginCompact(navController = navController, viewModel = viewModel)
         }
 
-        composeTestRule.onNodeWithText("Iniciar Sesión").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Correo electronico").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Contraseña").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Ingresar al sistema").assertIsDisplayed()
+        composeTestRule.onNodeWithText("CORREO ELECTRÓNICO").assertIsDisplayed()
+        composeTestRule.onNodeWithText("CONTRASEÑA").assertIsDisplayed()
     }
 
     @Test
@@ -44,11 +45,11 @@ class LoginScreenTest {
             LoginCompact(navController = navController, viewModel = viewModel)
         }
 
-        composeTestRule.onNodeWithText("Correo electronico").performTextInput("correo-invalido")
-        composeTestRule.onNodeWithText("Contraseña").performTextInput("123456")
+        composeTestRule.onNodeWithTag("login_email").performTextInput("correo-invalido")
+        composeTestRule.onNodeWithTag("login_password").performTextInput("123456")
 
-        // Hacemos click en el botón de Iniciar Sesión para activar la validación
-        composeTestRule.onNodeWithText("Iniciar Sesión").performClick()
+        // Hacemos click en el botón de ingreso para activar la validación
+        composeTestRule.onNodeWithText("Ingresar al sistema").performClick()
 
         // Verificamos que aparece el mensaje de error de correo inválido
         composeTestRule.onNodeWithText("Correo invalido").assertIsDisplayed()

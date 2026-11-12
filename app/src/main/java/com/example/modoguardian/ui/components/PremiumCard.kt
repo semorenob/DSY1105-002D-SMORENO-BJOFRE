@@ -11,7 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.modoguardian.R
 
 @Composable
 fun PremiumCard(modoEspecial: Boolean) {
@@ -25,7 +27,7 @@ fun PremiumCard(modoEspecial: Boolean) {
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         ) {
             Text(
-                text = "Cuenta Premium",
+                text = stringResource(R.string.register_premium_card),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(16.dp)
             )

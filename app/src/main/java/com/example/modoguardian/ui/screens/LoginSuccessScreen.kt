@@ -57,8 +57,8 @@ fun LoginSuccessScreen(
 
             TextButton(onClick = {
                 loginViewModel.cerrarSesion()
-                navController.navigate(Screen.StartPage.route) {
-                    popUpTo(Screen.StartPage.route) { inclusive = true }
+                navController.navigate(Screen.LoginScreen.route) {
+                    popUpTo(Screen.LoginScreen.route) { inclusive = true }
                 }
             }) {
                 Text("Cerrar sesión")
@@ -70,7 +70,7 @@ fun LoginSuccessScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = { navController.navigate(Screen.StartPage.route) }) {
+            Button(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
                 Text("Volver al inicio", style = MaterialTheme.typography.labelLarge)
             }
         }
