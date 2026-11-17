@@ -1,17 +1,17 @@
 package com.example.modoguardian
 
-import org.junit.Test
-
-import org.junit.Assert.*
+import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Prueba base del source set de tests unitarios locales.
  */
 class ExampleUnitTest {
+
     @Test
+    @DisplayName("La suma básica es correcta")
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+        (2 + 2) shouldBe 4
     }
 }
