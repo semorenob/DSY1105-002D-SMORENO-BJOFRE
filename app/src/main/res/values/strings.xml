@@ -231,6 +231,11 @@
     <string name="profile_placeholder">Vista previa local. Interactúa con los interruptores; el menú superior incluye “Cerrar Sesión”.</string>
     <string name="profile_change_photo">Cambiar foto de perfil</string>
 
+    <!-- Términos y políticas -->
+    <string name="terms_title">Términos y políticas</string>
+    <string name="terms_subtitle">Términos y Condiciones de Uso y Políticas de Seguridad y Privacidad</string>
+    <string name="terms_updated">Última actualización: 10 de noviembre de 2026</string>
+
     <!-- Registro -->
     <string name="register_title">Registro de usuario</string>
     <string name="register_subtitle">Completa los datos para guardar el registro local</string>

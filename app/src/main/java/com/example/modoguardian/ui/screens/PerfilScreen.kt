@@ -86,7 +86,8 @@ fun PerfilScreen(
     onToggleDarkTheme: (Boolean) -> Unit = {},
     onCerrarSesion: () -> Unit = {},
     onVerCamaras: () -> Unit = {},
-    onVerEventos: () -> Unit = {}
+    onVerEventos: () -> Unit = {},
+    onVerTerminos: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val imageUri by viewModel.imageUri.collectAsState()
@@ -381,7 +382,7 @@ fun PerfilScreen(
             ProfileRow(
                 icon = Icons.Outlined.Description,
                 title = stringResource(R.string.profile_terms),
-                onClick = { }
+                onClick = onVerTerminos
             )
         }
 

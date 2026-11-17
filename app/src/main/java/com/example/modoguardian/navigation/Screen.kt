@@ -10,6 +10,7 @@ sealed class Screen(val route: String) {
     data object Eventos: Screen("eventos")
     data object AlertaCritica: Screen("alerta_critica")
     data object Perfil: Screen("perfil")
+    data object Terminos: Screen("terminos")
     data object ResumenScreen: Screen("resumen")
     data object ListadoOfflineScreen: Screen("listado")
     data object SuccessScreen: Screen("success")

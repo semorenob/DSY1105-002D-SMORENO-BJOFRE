@@ -56,6 +56,7 @@ import com.example.modoguardian.ui.screens.PerfilScreen
 import com.example.modoguardian.ui.screens.RegistroIntegralScreen
 import com.example.modoguardian.ui.screens.ResumenScreen
 import com.example.modoguardian.ui.screens.SuccessScreen
+import com.example.modoguardian.ui.screens.TerminosScreen
 import com.example.modoguardian.ui.theme.ModoGuardianTheme
 import com.example.modoguardian.viewmodel.LoginViewModel
 import com.example.modoguardian.viewmodel.MainViewModel
@@ -264,8 +265,12 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 onVerCamaras = { navegar(Screen.Camaras.route) },
-                                onVerEventos = { navegar(Screen.Eventos.route) }
+                                onVerEventos = { navegar(Screen.Eventos.route) },
+                                onVerTerminos = { navegar(Screen.Terminos.route) }
                             )
+                        }
+                        composable(route = Screen.Terminos.route) {
+                            TerminosScreen(navController = navController)
                         }
                     }
                 }
