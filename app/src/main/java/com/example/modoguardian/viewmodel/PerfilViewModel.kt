@@ -7,7 +7,14 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.io.File
+
+data class PerfilUiState(
+    val twoFactor: Boolean = true,
+    val pushNotifications: Boolean = true,
+    val criticalAlerts: Boolean = true
+)
 
 class PerfilViewModel: ViewModel() {
 
@@ -15,8 +22,23 @@ class PerfilViewModel: ViewModel() {
 
     val imageUri: StateFlow<Uri?> = _imageUri.asStateFlow()
 
+    private val _uiState = MutableStateFlow(PerfilUiState())
+    val uiState: StateFlow<PerfilUiState> = _uiState.asStateFlow()
+
     fun setImageUri(uri: Uri?) {
         _imageUri.value = uri
+    }
+
+    fun onTwoFactorChange(activo: Boolean) {
+        _uiState.update { it.copy(twoFactor = activo) }
+    }
+
+    fun onPushNotificationsChange(activo: Boolean) {
+        _uiState.update { it.copy(pushNotifications = activo) }
+    }
+
+    fun onCriticalAlertsChange(activo: Boolean) {
+        _uiState.update { it.copy(criticalAlerts = activo) }
     }
 
     // generar uri temporal para que la camara guarde la foto

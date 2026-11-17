@@ -3,10 +3,15 @@ package com.example.modoguardian.ui.screens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.modoguardian.R
 import com.example.modoguardian.navigation.Screen
 import com.example.modoguardian.ui.components.HomeLayout
-import com.example.modoguardian.ui.components.HomeOptionCard
+import com.example.modoguardian.ui.components.InicioContent
+import com.example.modoguardian.ui.components.RoleTool
+import com.example.modoguardian.viewmodel.InicioViewModel
 import com.example.modoguardian.viewmodel.LoginViewModel
 
 @Composable
@@ -15,37 +20,44 @@ fun HomeOperadorScreen(
     loginViewModel: LoginViewModel
 ) {
     val estado by loginViewModel.estado.collectAsState()
+    val inicioViewModel: InicioViewModel = viewModel()
+    val inicio by inicioViewModel.uiState.collectAsState()
 
     HomeLayout(
-        titulo = "Panel Operador",
-        email = estado.email,
-        rol = estado.rol?.etiqueta ?: "Operador",
+        titulo = stringResource(R.string.dashboard_hello_guardian),
+        email = estado.email.ifBlank { "guardian@insercode.cl" },
+        rol = "Operador",
         onCerrarSesion = {
             loginViewModel.cerrarSesion()
-            navController.navigate(Screen.StartPage.route) {
-                popUpTo(Screen.StartPage.route) { inclusive = true }
+            navController.navigate(Screen.LoginScreen.route) {
+                popUpTo(0) { inclusive = true }
             }
-        }
+        },
+        onNotificaciones = { navController.navigate(Screen.AlertaCritica.route) }
     ) {
-        HomeOptionCard(
-            titulo = "Registrar usuario",
-            descripcion = "Registrar una persona con foto y datos"
-        ) {
-            navController.navigate(Screen.RegistroIntegralScreen.route)
-        }
-
-        HomeOptionCard(
-            titulo = "Resumen",
-            descripcion = "Ver el resumen del último registro"
-        ) {
-            navController.navigate(Screen.ResumenScreen.route)
-        }
-
-        HomeOptionCard(
-            titulo = "Listado Offline",
-            descripcion = "Consultar los registros guardados"
-        ) {
-            navController.navigate(Screen.ListadoOfflineScreen.route)
-        }
+        InicioContent(
+            state = inicio,
+            tools = listOf(
+                RoleTool(
+                    stringResource(R.string.tools_register_user),
+                    stringResource(R.string.tools_register_user_desc),
+                    Screen.RegistroIntegralScreen.route
+                ),
+                RoleTool(
+                    stringResource(R.string.tools_summary),
+                    stringResource(R.string.tools_summary_desc),
+                    Screen.ResumenScreen.route
+                ),
+                RoleTool(
+                    stringResource(R.string.tools_offline),
+                    stringResource(R.string.tools_offline_desc),
+                    Screen.ListadoOfflineScreen.route
+                )
+            ),
+            onVerTodasCamaras = { navController.navigate(Screen.Camaras.route) },
+            onCamaraClick = { navController.navigate(Screen.Camaras.route) },
+            onVerEventos = { navController.navigate(Screen.Eventos.route) },
+            onToolClick = { navController.navigate(it.route) }
+        )
     }
 }

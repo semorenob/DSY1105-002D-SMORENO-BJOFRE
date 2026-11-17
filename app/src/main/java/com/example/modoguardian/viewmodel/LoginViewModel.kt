@@ -35,6 +35,14 @@ class LoginViewModel: ViewModel() {
         }
     }
 
+    fun onRecordarmeChange(valor: Boolean) {
+        _estado.update { it.copy(recordarme = valor) }
+    }
+
+    fun onTogglePasswordVisibility() {
+        _estado.update { it.copy(passwordVisible = !it.passwordVisible) }
+    }
+
     fun validarFormulario(): Boolean {
         val estadoActual = _estado.value
         val errores = LoginErrores(

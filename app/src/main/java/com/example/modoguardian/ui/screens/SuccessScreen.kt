@@ -42,7 +42,7 @@ fun SuccessScreen(
 
         Button(
             onClick = {
-                navController.navigate(Screen.StartPage.route)
+                navController.navigate(Screen.LoginScreen.route)
             },
             colors = ButtonDefaults.buttonColors(),
             modifier = Modifier
