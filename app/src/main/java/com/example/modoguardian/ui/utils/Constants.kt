@@ -15,7 +15,7 @@ const val EMAIL_OPERADOR = "operador@guardian.test"
 const val PASSWD_OPERADOR = "123456"
 
 // GUARDIAN (cuenta demo de los mockups)
-const val EMAIL_GUARDIAN = "guardian@insercode.cl"
+const val EMAIL_GUARDIAN = "guardiantest@insercode.cl"
 const val PASSWD_GUARDIAN = "123456"
 
 data class UsuarioPredefinido(
