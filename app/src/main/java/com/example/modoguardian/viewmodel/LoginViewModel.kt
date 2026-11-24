@@ -1,7 +1,10 @@
 package com.example.modoguardian.viewmodel
 
+import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.modoguardian.data.GoogleAuthManager
+import com.example.modoguardian.data.ResultadoGoogle
 import com.example.modoguardian.model.LoginErrores
 import com.example.modoguardian.model.LoginUiState
 import com.example.modoguardian.model.Rol
@@ -12,7 +15,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel(
+    private val googleAuthManager: GoogleAuthManager = GoogleAuthManager()
+) : ViewModel() {
+
     private val _estado = MutableStateFlow(LoginUiState())
 
     val estado: StateFlow<LoginUiState> = _estado
@@ -97,7 +103,58 @@ class LoginViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Inicio de sesion con Google + Firebase Auth (Credential Manager).
+     *
+     * @param activity   Activity necesaria para lanzar el dialogo de Google.
+     * @param onExito    Callback de navegacion (igual que iniciarSesion).
+     */
+    fun iniciarSesionConGoogle(activity: Activity, onExito: (Rol) -> Unit) {
+        // Evita lanzar dos veces el dialogo si ya hay una peticion en curso.
+        if (_estado.value.isLoading) return
+
+        viewModelScope.launch {
+            _estado.update {
+                it.copy(
+                    isLoading = true,
+                    errores = it.errores.copy(credenciales = null)
+                )
+            }
+
+            when (val resultado = googleAuthManager.signInConGoogle(activity)) {
+                is ResultadoGoogle.Exito -> {
+                    // Si el correo de la cuenta Google coincide con un usuario
+                    // predefinido se conserva su rol; si no, entra como OPERADOR.
+                    val rol = rolParaEmail(resultado.email)
+                    _estado.update {
+                        it.copy(isLoading = false, rol = rol)
+                    }
+                    onExito(rol)
+                }
+
+                is ResultadoGoogle.Error -> _estado.update {
+                    it.copy(
+                        isLoading = false,
+                        errores = it.errores.copy(credenciales = resultado.mensaje)
+                    )
+                }
+
+                ResultadoGoogle.Cancelado -> _estado.update {
+                    it.copy(isLoading = false)
+                }
+            }
+        }
+    }
+
+    private fun rolParaEmail(email: String?): Rol {
+        if (email.isNullOrBlank()) return Rol.OPERADOR
+        return USUARIOS_PREDEFINIDOS
+            .firstOrNull { it.email.equals(email.trim(), ignoreCase = true) }
+            ?.rol ?: Rol.OPERADOR
+    }
+
     fun cerrarSesion() {
+        googleAuthManager.cerrarSesion()
         _estado.value = LoginUiState()
     }
 }

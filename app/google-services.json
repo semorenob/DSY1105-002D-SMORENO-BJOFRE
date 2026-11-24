@@ -1,0 +1,34 @@
+{
+  "project_info": {
+    "project_number": "81920368364",
+    "project_id": "modo-guardian-faef9",
+    "storage_bucket": "modo-guardian-faef9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81920368364:android:eb8d8b7f87fe4ffa270fc9",
+        "android_client_info": {
+          "package_name": "com.example.modoguardian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81920368364-4vcks7vt1lql6099jdf88v7n09udd1vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjEnQH_Tcjw-gQE_kLZZJa2bG-9mOeFmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

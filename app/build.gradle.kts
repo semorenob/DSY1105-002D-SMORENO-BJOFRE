@@ -1,9 +1,11 @@
 import org.gradle.api.tasks.testing.Test
 
 plugins {
+    id("com.google.gms.google-services")   // debe ir DESPUÉS de registrar el json
     id("com.google.devtools.ksp")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+
 }
 
 android {
@@ -19,6 +21,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        manifestPlaceholders["WEB_CLIENT_ID"] = "81920368364-4vcks7vt1lql6099jdf88v7n09udd1vo.apps.googleusercontent.com"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,6 +31,12 @@ android {
                 enable = false
             }
         }
+        debug {
+            buildConfigField("String", "WEB_CLIENT_ID", "\"81920368364-4vcks7vt1lql6099jdf88v7n09udd1vo.apps.googleusercontent.com\"")
+        }
+        release {
+            buildConfigField("String", "WEB_CLIENT_ID", "\"81920368364-4vcks7vt1lql6099jdf88v7n09udd1vo.apps.googleusercontent.com\"")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -35,12 +44,14 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
     implementation("androidx.room:room-runtime:2.8.5")
     implementation("androidx.room:room-ktx:2.8.5")
+    implementation(libs.googleid)
     ksp("androidx.room:room-compiler:2.8.5")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("io.coil-kt.coil3:coil-compose:3.6.3")
@@ -73,6 +84,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
+    implementation("com.google.firebase:firebase-auth")
+
+    implementation("androidx.credentials:credentials:1.5.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.1")
 }
 
 tasks.withType<Test>().configureEach {

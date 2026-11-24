@@ -1,5 +1,7 @@
 package com.example.modoguardian.ui.screens
 
+import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,6 +24,7 @@ fun LoginCompact(
     viewModel: LoginViewModel
 ) {
     val estado by viewModel.estado.collectAsState()
+    val activity: Activity? = LocalActivity.current
 
     Column(
         modifier = Modifier
@@ -37,6 +40,11 @@ fun LoginCompact(
             onTogglePasswordVisibility = viewModel::onTogglePasswordVisibility,
             onSubmit = {
                 viewModel.iniciarSesion { rol -> navController.irAlHome(rol) }
+            },
+            onGoogleLogin = {
+                activity?.let { act ->
+                    viewModel.iniciarSesionConGoogle(act) { rol -> navController.irAlHome(rol) }
+                }
             },
             onCreateAccount = { navController.navigate(Screen.RegistroIntegralScreen.route) }
         )

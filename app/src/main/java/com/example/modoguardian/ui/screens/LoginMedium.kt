@@ -1,5 +1,7 @@
 package com.example.modoguardian.ui.screens
 
+import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +27,7 @@ fun LoginMedium(
     viewModel: LoginViewModel
 ) {
     val estado by viewModel.estado.collectAsState()
+    val activity: Activity? = LocalActivity.current
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -45,6 +48,11 @@ fun LoginMedium(
                 onTogglePasswordVisibility = viewModel::onTogglePasswordVisibility,
                 onSubmit = {
                     viewModel.iniciarSesion { rol -> navController.irAlHome(rol) }
+                },
+                onGoogleLogin = {
+                    activity?.let { act ->
+                        viewModel.iniciarSesionConGoogle(act) { rol -> navController.irAlHome(rol) }
+                    }
                 },
                 onCreateAccount = { navController.navigate(Screen.RegistroIntegralScreen.route) }
             )

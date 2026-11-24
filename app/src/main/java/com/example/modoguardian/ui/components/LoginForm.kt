@@ -1,5 +1,6 @@
 package com.example.modoguardian.ui.components
 
+import android.app.Activity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.modoguardian.R
 import com.example.modoguardian.model.LoginUiState
 import com.example.modoguardian.ui.theme.GuardianTheme
@@ -52,8 +55,10 @@ fun LoginForm(
     onTogglePasswordVisibility: () -> Unit,
     onSubmit: () -> Unit,
     onCreateAccount: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onGoogleLogin: () -> Unit
 ) {
+
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -223,7 +228,8 @@ fun LoginForm(
         ) {
             GuardOutlinedButton(
                 text = stringResource(R.string.login_google),
-                onClick = { },
+                onClick = onGoogleLogin,
+                enabled = !estado.isLoading,
                 modifier = Modifier.weight(1f)
             )
             GuardOutlinedButton(
