@@ -12,6 +12,19 @@ Aplicación Android desarrollada en **Kotlin** con **Jetpack Compose** para la g
 - Diseño adaptable a distintos tamaños de pantalla.
 - Funcionalidades offline con Room Database.
 
+## Usuarios de prueba
+
+Puedes iniciar sesión con cualquiera de las siguientes cuentas predefinidas:
+
+| Rol | Correo | Contraseña |
+|---|---|---|
+| Administrador | `admin@guardian.test` | `123456` |
+| Supervisor | `supervisor@guardian.test` | `123456` |
+| Operador | `operador@guardian.test` | `123456` |
+| Cuenta demo | `guardiantest@insercode.cl` | `123456` |
+
+Todas las cuentas utilizan la contraseña `123456`.
+
 ## Tecnologías
 
 - Kotlin
